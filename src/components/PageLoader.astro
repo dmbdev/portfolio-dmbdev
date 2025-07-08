@@ -1,0 +1,35 @@
+<div id="page-loader" class="fixed top-0 left-0 w-[100vw] h-[100svh] overflow-hidden z-[999]">
+    <div id="overlay" class="absolute top-0 w-[100%] h-[100%] flex z-99">
+        <div class="block w-[100%] h-[100%] bg-[#303030]"></div>
+        <div class="block w-[100%] h-[100%] bg-[#303030]"></div>
+    </div>
+
+    <div class="absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[50%] flex gap-1 z-99">
+        <div class="word relative -left-2 pr-8" id="word-1">
+            <h1 class="text-center text-[#fff] text-[2.5rem] font-[500] leading-none transform -translate-y-[120%]"><span class="font-extrabold">DMB</span></h1>
+        </div>
+        <div class="word" id="word-2">
+            <h1 class="text-center text-[#fff] text-[2.5rem] font-extrabold leading-none transform translate-y-[120%]">DEV</h1>
+        </div>
+    </div>
+
+    <div id="divider" class="absolute top-0 left-[50%] transform -translate-x-[50%] scale-y-0 origin-top w-[1px] h-[100%] bg-[#fff] z-99"></div>
+</div>
+
+<style>
+
+    .word {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .block {
+        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    @media (max-width: 900px) {
+        h1 {
+            font-size: 2.5rem;
+        }
+    }
+
+</style>
