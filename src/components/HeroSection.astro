@@ -3,6 +3,7 @@ import KeepScrolling from '../assets/keep-scrolling.svg'
 ---
 
 <section id="hero-section" class="relative w-[100vw] h-[100vh] flex justify-end items-center flex-col flex-nowrap z-3 overflow-hidden">
+    <img src="olas.webp" alt="" class="w-[100%] h-[100%] object-cover">
     <div id="slogan" class="absolute pb-[10em] w-[100%] cursor-default z-11">
         <div>
             <div class="relative flex justify-center items-center overflow-hidden">
@@ -34,117 +35,121 @@ import KeepScrolling from '../assets/keep-scrolling.svg'
 
 <script>
     import * as THREE from 'three';
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
-    const renderer = new THREE.WebGLRenderer({antialias:true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('hero-section')!.appendChild(renderer.domElement);
+    if(window.innerWidth >= 768) {
 
-    const loader = new THREE.TextureLoader();
-    const texture1 = loader.load('');
-    const texture2 = loader.load('olas.webp');
+        const scene = new THREE.Scene();
+        const camera = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+        const renderer = new THREE.WebGLRenderer({antialias:true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('hero-section')!.appendChild(renderer.domElement);
+        
+        const loader = new THREE.TextureLoader();
+        const texture1 = loader.load('');
+        const texture2 = loader.load('olas.webp');
+        
+        const uniforms = {
+            u_time: { value: 0 },
+            u_mouse: { value: new THREE.Vector2(0.5,0.5) },
+            u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+            u_texture1: { value: texture1 },
+            u_texture2: { value: texture2 }
+        };
+        
+        const material = new THREE.ShaderMaterial({
+            uniforms,
+            vertexShader: `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = vec4(position,1.0);
+                }
+                `,
+                fragmentShader: `
+                precision highp float;
+                
+                uniform float u_time;
+                uniform vec2 u_mouse;
+                uniform vec2 u_resolution;
+                uniform sampler2D u_texture1;
+                uniform sampler2D u_texture2;
+                
+                float organicNoise(float angle, float time) {
+                    return sin(angle * 6.0 + time * 9.0) * 0.02 +
+                    cos(angle * 9.0 - time * 9.0) * 0.02;
+                    }
+                    
+                    void main() {
+                        vec2 uv = gl_FragCoord.xy / u_resolution;
+                        vec2 diff = uv - u_mouse;
+                        
+                        vec2 scale = vec2(2.5, 1.35);
+                        vec2 scaledDiff = diff * scale;
+                        
+                        float dist = length(scaledDiff);
+                        float angle = atan(diff.y, diff.x);
+                        
+                        float baseRadius = 0.23;
+                        float noise = organicNoise(angle, u_time);
+                        float radiusDeformed = baseRadius + noise;
+                        
+                        float mask = dist < radiusDeformed ? 1.0 : 0.0;
+                        
+                        vec4 frontColor = texture2D(u_texture1, uv);
+                        vec4 backColor = texture2D(u_texture2, uv);
+                        
+                        // Oscurecer lo que se ve dentro del agujero
+                        float darkOpacity = 0.5;
+                        vec4 darkOverlay = vec4(0.0, 0.0, 0.0, 1.0);
+                        vec4 backDarkened = mix(backColor, darkOverlay, darkOpacity);
+                        
+                        vec4 finalColor = mix(frontColor, backDarkened, mask);
+                        
+                        gl_FragColor = finalColor;
+                        }
+                        `
+                    });
 
-    const uniforms = {
-    u_time: { value: 0 },
-    u_mouse: { value: new THREE.Vector2(0.5,0.5) },
-    u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-    u_texture1: { value: texture1 },
-    u_texture2: { value: texture2 }
-    };
-
-    const material = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader: `
-        varying vec2 vUv;
-        void main() {
-        vUv = uv;
-        gl_Position = vec4(position,1.0);
-        }
-    `,
-    fragmentShader: `
-        precision highp float;
-
-        uniform float u_time;
-        uniform vec2 u_mouse;
-        uniform vec2 u_resolution;
-        uniform sampler2D u_texture1;
-        uniform sampler2D u_texture2;
-
-        float organicNoise(float angle, float time) {
-        return sin(angle * 6.0 + time * 9.0) * 0.02 +
-                cos(angle * 9.0 - time * 9.0) * 0.02;
-        }
-
-        void main() {
-        vec2 uv = gl_FragCoord.xy / u_resolution;
-        vec2 diff = uv - u_mouse;
-
-        vec2 scale = vec2(2.5, 1.35);
-        vec2 scaledDiff = diff * scale;
-
-        float dist = length(scaledDiff);
-        float angle = atan(diff.y, diff.x);
-
-        float baseRadius = 0.23;
-        float noise = organicNoise(angle, u_time);
-        float radiusDeformed = baseRadius + noise;
-
-        float mask = dist < radiusDeformed ? 1.0 : 0.0;
-
-        vec4 frontColor = texture2D(u_texture1, uv);
-        vec4 backColor = texture2D(u_texture2, uv);
-
-        // Oscurecer lo que se ve dentro del agujero
-        float darkOpacity = 0.5;
-        vec4 darkOverlay = vec4(0.0, 0.0, 0.0, 1.0);
-        vec4 backDarkened = mix(backColor, darkOverlay, darkOpacity);
-
-        vec4 finalColor = mix(frontColor, backDarkened, mask);
-
-        gl_FragColor = finalColor;
-        }
-    `
-    });
-
-    const plane = new THREE.Mesh(new THREE.PlaneGeometry(2,2), material);
-    scene.add(plane);
-
-    const mousePos = new THREE.Vector2(0.5, 0.5);
-    const smoothPos = new THREE.Vector2(0.5, 0.5);
-
-    window.addEventListener('mousemove', e => {
-    mousePos.x = e.clientX / window.innerWidth;
-    mousePos.y = 1.0 - e.clientY / window.innerHeight;
-    });
-
-    window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
-    });
-
-    const clock = new THREE.Clock();
-
-    function animate() {
-    requestAnimationFrame(animate);
-    uniforms.u_time.value = clock.getElapsedTime();
-
-    // Suavizado con retardo
-    smoothPos.x += (mousePos.x - smoothPos.x) * 0.08;
-    smoothPos.y += (mousePos.y - smoothPos.y) * 0.08;
-
-    const offsetMax = 0.07;
-
-    // Offset proporcional a la distancia desde el centro, sin saltos
-    const offsetX = offsetMax * (smoothPos.x - 0.5) * 2.0; // va de -offsetMax a offsetMax
-    const offsetY = offsetMax * 8.0 * (smoothPos.y - 0.5) * 2.0;
-
-    const displacedPos = new THREE.Vector2(smoothPos.x + offsetX, smoothPos.y + offsetY);
-
-    uniforms.u_mouse.value.copy(displacedPos);
-
-    renderer.render(scene, camera);
-    }
-
-    animate();
-  
-</script>
+                    const plane = new THREE.Mesh(new THREE.PlaneGeometry(2,2), material);
+                    scene.add(plane);
+                    
+                    const mousePos = new THREE.Vector2(0.5, 0.5);
+                    const smoothPos = new THREE.Vector2(0.5, 0.5);
+                    
+                    window.addEventListener('mousemove', e => {
+                        mousePos.x = e.clientX / window.innerWidth;
+                        mousePos.y = 1.0 - e.clientY / window.innerHeight;
+                    });
+                    
+                    window.addEventListener('resize', () => {
+                        renderer.setSize(window.innerWidth, window.innerHeight);
+                        uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+                    });
+                    
+                    const clock = new THREE.Clock();
+                    
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        uniforms.u_time.value = clock.getElapsedTime();
+                        
+                        // Suavizado con retardo
+                        smoothPos.x += (mousePos.x - smoothPos.x) * 0.08;
+                        smoothPos.y += (mousePos.y - smoothPos.y) * 0.08;
+                        
+                        const offsetMax = 0.07;
+                        
+                        // Offset proporcional a la distancia desde el centro, sin saltos
+                        const offsetX = offsetMax * (smoothPos.x - 0.5) * 2.0; // va de -offsetMax a offsetMax
+                        const offsetY = offsetMax * 8.0 * (smoothPos.y - 0.5) * 2.0;
+                        
+                        const displacedPos = new THREE.Vector2(smoothPos.x + offsetX, smoothPos.y + offsetY);
+                        
+                        uniforms.u_mouse.value.copy(displacedPos);
+                        
+                        renderer.render(scene, camera);
+                    }
+                    
+                    animate();
+                    
+                }
+                </script>
+                
