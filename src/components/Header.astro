@@ -1,9 +1,29 @@
 <header class="fixed hidden md:flex w-[100%] justify-between items-center z-999 px-[30px] py-[20px] text-primary">
     <a href="*" class="inline-block relative cursor-pointer font-extrabold text-3xl">DMB <span class="font-editorial">/dev</span></a>
     <div class="flex">
-        <a href="" class="relative overflow-hidden flex text-[0.94em] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-[#222] text-primary hover:bg-[#222] hover:text-primary transition duration-300">Home</a>
-        <a href="" class="relative overflow-hidden flex text-[0.94em] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">About</a>
-        <a href="" class="relative overflow-hidden flex text-[0.94em] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">Work</a>
-        <a href="" class="relative overflow-hidden flex text-[0.94em] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">Contact</a>
+        <a href="" class="nav-link relative overflow-hidden flex md:text-[1.5em] lg:text-[13.5px] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-[#222] text-primary hover:bg-[#222] hover:text-primary transition duration-300">Home</a>
+        <a href="" class="nav-link relative overflow-hidden flex md:text-[1.5em] lg:text-[13.5px] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">About</a>
+        <a href="" class="nav-link relative overflow-hidden flex md:text-[1.5em] lg:text-[13.5px] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">Work</a>
+        <a href="" class="nav-link relative overflow-hidden flex md:text-[1.5em] lg:text-[13.5px] px-[16px] py-[10px] mr-3 justify-center items-center border border-[#fff] radius rounded-[40px] bg-white text-accent hover:bg-[#222] hover:text-primary transition duration-300">Contact</a>
     </div>
 </header>
+
+<script>
+    const navLinks = document.querySelectorAll('header.md\\:flex .nav-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Para pruebas, evitar navegación inmediata
+
+            // Quitar clase activa a todos
+            navLinks.forEach(l => {
+                l.classList.remove('bg-[#222]', 'text-primary');
+                l.classList.add('bg-white', 'text-accent');
+            });
+
+            // Activar el clicado
+            link.classList.remove('bg-white', 'text-accent');
+            link.classList.add('bg-[#222]', 'text-primary');
+        });
+    });
+</script>

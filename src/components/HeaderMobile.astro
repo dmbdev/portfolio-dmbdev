@@ -1,10 +1,119 @@
-<header class="fixed flex z-[99] w-[100%] py-[20px] pl-[20px] pr-[10px] justify-between items-center">
-    <a href="*" class="inline-block relative cursor-pointer font-extrabold text-xl">DMB <span class="font-editorial">/dev</span></a>
-    <div class="relative flex w-[30px] h-[30px] items-center justify-center z-10">
-        <div class="relative flex items-center justify-center flex-col rounded-sm w-[30px] h-[30px] z-[100] cursor-pointer">
-            <div class="h-1 w-[22.5px] transform-3d bg-white"></div>
-            <div class="h-1 w-[26px] transform-3d bg-white my-1"></div>
-            <div class="h-1 w-[22.5px] transform-3d bg-white"></div>
+<header class="fixed flex md:hidden z-[99] w-full py-5 px-5 justify-between items-center">
+  <a href="*" class="inline-block relative cursor-pointer font-extrabold text-xl z-10">DMB <span class="font-editorial">/dev</span></a>
+
+  <div id="dropdown-menu" class="absolute px-[30px] w-[100vw] h-0 overflow-hidden transition-all duration-600 ease-in-out flex flex-col items-start justify-center bg-[#222] z-1 inset-0">
+    <div id="menu-content" class="flex flex-col items-start opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="absolute flex px-[30px] w-[100%] items-center justify-between bottom-0 top-auto left-0 right-0 h-auto pb-[16vh]">
+            <div class="flex w-[45%] items-start justify-center flex-col">
+                <div class="overflow-hidden items-center static block text-[3.5em] text-[#888] mb-[1em] font-bold">Contact</div>
+                <div class="overflow-hidden items-center static block text-[2.6em] uppercase mb-[0.5em] tracking-wider">
+                    <a href="">dxniel.martin@gmail.com</a>
+                </div>
+                <div class="overflow-hidden items-center static block text-[2.6em] uppercase mb-[0.5em] tracking-wider">Linkedin</div>
+            </div>
+        </div>
+        <div class="overflow-hidden relative flex items-center justify-center mb-1 max-h-10">
+            <a href="#" class="nav-link text-[11em] font-extrabold uppercase tracking-tighter text-[#888]">HOME</a>
+        </div>
+        <div class="overflow-hidden relative flex items-center justify-center mb-1 max-h-10">
+            <a href="#" class="nav-link text-[11em] font-extrabold uppercase tracking-tighter">About</a>
+        </div>
+        <div class="overflow-hidden relative flex items-center justify-center mb-1 max-h-10">
+            <a href="#" class="nav-link text-[11em] font-extrabold uppercase tracking-tighter">Projects</a>
+        </div>
+        <div class="overflow-hidden relative flex items-center justify-center mb-1 max-h-10">
+            <a href="#" class="nav-link text-[11em] font-extrabold uppercase tracking-tighter ">Contact</a>
         </div>
     </div>
+  </div>
+
+  <div id="hamburger" class="relative flex w-[30px] h-[30px] items-center justify-center z-10">
+    <div id="hamburger-icon" class="relative flex items-center justify-center flex-col w-[30px] h-[30px] cursor-pointer">
+      <div class="bar top h-1 w-[22.5px] bg-white transition-transform duration-300 ease-in-out translate-y-[-4px]"></div>
+      <div class="bar middle h-1 w-[26px] bg-white transition-all duration-200 ease-in-out origin-center"></div>
+      <div class="bar bottom h-1 w-[22.5px] bg-white transition-transform duration-300 ease-in-out translate-y-[4px]"></div>
+    </div>
+  </div>
+
+  <script>
+    const icon = document.getElementById('hamburger-icon');
+    const topBar = icon?.querySelector('.top');
+    const middleBar = icon?.querySelector('.middle');
+    const bottomBar = icon?.querySelector('.bottom');
+    const menu = document.getElementById('dropdown-menu');
+    const menuContent = document.getElementById('menu-content');
+    const links = document.querySelectorAll('.nav-link');
+
+    let isOpen = false;
+
+    icon?.addEventListener('click', () => {
+      if (isOpen) {
+        // Paso 1: quitar rotación
+        topBar?.classList.remove('rotate-45');
+        bottomBar?.classList.remove('-rotate-45');
+
+        // Paso 2: después de rotación, mover de vuelta a su sitio
+        setTimeout(() => {
+          topBar?.classList.remove('translate-y-[4px]');
+          bottomBar?.classList.remove('translate-y-[4px]');
+          topBar?.classList.add('translate-y-[-4px]');
+          bottomBar?.classList.add('translate-y-[4px]');
+        }, 300);
+
+        // Paso 3: después de moverse, restaurar barra del medio
+        setTimeout(() => {
+          middleBar?.classList.remove('opacity-0', 'scale-x-0');
+        }, 400);
+
+        menuContent?.classList.remove('opacity-100');
+        menuContent?.classList.add('opacity-0', 'pointer-events-none');
+
+        setTimeout(() => {
+            menu?.classList.remove('h-[100vh]');
+            menu?.classList.add('h-0');
+        }, 300);
+        
+
+        isOpen = false;
+      } else {
+        // Paso 1: contraer barra del medio
+        middleBar?.classList.add('scale-x-0');
+
+        // Paso 2: ocultar y mover otras barras al centro
+        setTimeout(() => {
+          middleBar?.classList.add('opacity-0');
+
+          topBar?.classList.remove('translate-y-[-4px]');
+          bottomBar?.classList.remove('translate-y-[4px]');
+          topBar?.classList.add('translate-y-[4px]');
+          bottomBar?.classList.add('translate-y-[-4px]');
+        }, 300);
+
+        // Paso 3: rotar para formar la X
+        setTimeout(() => {
+          topBar?.classList.add('rotate-45');
+          bottomBar?.classList.add('-rotate-45');
+        }, 400);
+
+        menu?.classList.remove('h-0');
+        menu?.classList.add('h-[100vh]');
+
+        setTimeout(() => {
+            menuContent?.classList.remove('opacity-0', 'pointer-events-none');
+            menuContent?.classList.add('opacity-100');
+        }, 500);
+
+        isOpen = true;
+      }
+    });
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            links.forEach(l => l.classList.remove('text-[#888]'));
+            link.classList.add('text-[#888]');
+        })
+    })
+  </script>
 </header>
