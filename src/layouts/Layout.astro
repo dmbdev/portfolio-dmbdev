@@ -24,7 +24,42 @@
 		--color-primary: #ffffff;
 		--color-accent: #3a3a40;
 
+		--font-sans: "Neue Montreal", Arial, sans-serif;
+		--font-editorial: "Editorial", Times New Roman, sans-serif;
+
 		--animate-bounce-pulse: bounce-pulse 2s ease-in-out infinite;
+	}
+
+	@font-face {
+		font-family: Neue Montreal;
+		src: url("/public/fonts/NeueMontreal-Regular.otf") format("otf");
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: Neue Montreal;
+		src: url("/public/fonts/NeueMontreal-Bold.otf") format("otf");
+		font-weight: 700;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: Neue Montreal;
+		src: url("/public/fonts/NeueMontreal-Medium.otf") format("otf");
+		font-weight: 500;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: Editorial;
+		src: url("/public/fonts/PPEditorialNew-Ultralight.otf") format("otf");
+		font-weight: 200;
+		font-style: normal;
+		font-display: swap;
 	}
 
 	@keyframes bounce-pulse {

@@ -129,8 +129,8 @@ import KeepScrolling from '../assets/keep-scrolling.svg'
     uniforms.u_time.value = clock.getElapsedTime();
 
     // Suavizado con retardo
-    smoothPos.x += (mousePos.x - smoothPos.x) * 0.1;
-    smoothPos.y += (mousePos.y - smoothPos.y) * 0.1;
+    smoothPos.x += (mousePos.x - smoothPos.x) * 0.08;
+    smoothPos.y += (mousePos.y - smoothPos.y) * 0.08;
 
     const offsetMax = 0.07;
 

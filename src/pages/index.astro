@@ -31,7 +31,7 @@ import HeroSection from '../components/HeroSection.astro'
         tl.from("header", { opacity: 0, duration: 1.8, delay:1 }, "<")
 
         tl.to("#hero-section #line", { scaleX: 1, duration: 1.5, ease: "power2.in" }, "<")
-        tl.from("#hero-section h1, .testy", { y: 150, duration: 2, ease: "power2.out" }, "<")
+        tl.from("#hero-section h1, .testy", { y: 150, duration: 1.5, ease: "power2.out" }, "<")
         tl.from("#hero-section .description", { opacity: 0, duration: 1.4, delay: 0.8 }, "<")
         tl.from("#scroller", { opacity: 0, duration: 1.4 }, "<")
     })
