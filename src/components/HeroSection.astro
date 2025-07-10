@@ -1,27 +1,28 @@
 ---
 import KeepScrolling from '../assets/keep-scrolling.svg'
+import WaterIcon from '../assets/water-icon.svg'
 ---
 
-<section id="hero-section" class="relative w-[100vw] h-[100vh] flex justify-end items-center flex-col flex-nowrap z-3 overflow-hidden">
+<section id="hero-section" class="relative w-full h-[100vh] flex justify-end items-center flex-col flex-nowrap z-3 overflow-hidden">
     <img src="olas.webp" alt="" class="w-[100%] h-[100%] object-cover">
     <div id="slogan" class="absolute pb-[10em] w-[100%] cursor-default z-11">
         <div>
             <div class="relative flex justify-center items-center overflow-hidden">
-                <h1 class="text-white uppercase text-[6.25em] font-extrabold leading-none tracking-[-0.04em] mt-0 mb-0">Unlock</h1>
+                <h1 class="text-white uppercase text-[6.25em] font-extrabold leading-none tracking-[-0.04em] mt-0 mb-0">Reveal</h1>
             </div>
             <div class="relative flex justify-center items-center overflow-hidden">
-                <h1 class="text-white text-[5.56em] font-editorial font-extralight leading-[1.1] tracking-[-0.04em] h1-serif">Your Brand's Personality</h1>
+                <h1 class="text-white text-[5.56em] font-editorial font-extralight leading-[1.1] tracking-[-0.04em] h1-serif">Your Brand's Essence</h1>
             </div>
         </div>
         <div id="scroller" class="h-60 flex justify-center items-center">
-            <KeepScrolling class="text-white drop-shadow-2xl w-20 h-20 animate-bounce-pulse" />
+            <WaterIcon class="text-white drop-shadow-2xl animate-bounce-pulse" />
         </div>
     </div>
     <div class="absolute flex justify-start items-center flex-col flex-nowrap z-11 w-[100%] px-[30px] inset-y-auto inset-x-0">
         <div id="line" class="w-[100%] h-[1px] bg-white origin-center transform scale-x-0" />
         <div class="w-[100%] flex justify-center md:justify-between items-center py-[2em]">
             <div class="relative hidden md:flex overflow-hidden w-[25%] items-center justify-start">
-                <div class="text-white uppercase text-[1.04em] font-bold testy">Animations</div>
+                <div class="text-white uppercase text-[1.04em] font-bold testy">Web Animations</div>
             </div>
             <div class="pb-[10vh] md:max-w-[40%] md:pb-0">
                 <div class="relative overflow-hidden flex justify-center items-center max-w-[100%] text-white text-[1.04em] text-center font-bold leading-[1.2] description">I design and develop websites that do more than look good—they tell stories, evoke emotions, and make brands feel alive.</div>
@@ -135,7 +136,7 @@ import KeepScrolling from '../assets/keep-scrolling.svg'
                         smoothPos.x += (mousePos.x - smoothPos.x) * 0.08;
                         smoothPos.y += (mousePos.y - smoothPos.y) * 0.08;
                         
-                        const offsetMax = 0.07;
+                        const offsetMax = 0.04;
                         
                         // Offset proporcional a la distancia desde el centro, sin saltos
                         const offsetX = offsetMax * (smoothPos.x - 0.5) * 2.0; // va de -offsetMax a offsetMax

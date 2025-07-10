@@ -4,36 +4,55 @@ import Header from '../components/Header.astro';
 import HeaderMobile from '../components/HeaderMobile.astro';
 import PageLoader from '../components/PageLoader.astro'
 import HeroSection from '../components/HeroSection.astro'
+import AboutMe from '../components/AboutMe.astro';
 ---
 
 <Layout>
-	<PageLoader />
-	<Header />
+    <!-- <PageLoader /> -->
+    <Header />
     <HeaderMobile />
-	<HeroSection client:load />
+    <HeroSection />
+    <AboutMe />
 </Layout>
 
 <script>
     import { gsap } from "gsap";
     import { CustomEase } from "gsap/CustomEase"
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-    gsap.registerPlugin(CustomEase)
+    gsap.registerPlugin(CustomEase);
+    gsap.registerPlugin(ScrollTrigger);
     CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
     document.addEventListener("DOMContentLoaded", () => {
-        const tl = gsap.timeline({ delay: 0.3, defaults: { ease: "hop" }});
+        const tl = gsap.timeline({ defaults: { ease: "hop" }});
 
         tl.to("#page-loader .word h1", { y: "0%", duration: 1 }, "<");
         tl.to("#divider", { scaleY: "100%", duration: 1, onComplete: () => { gsap.to("#divider", { opacity: 0, duration:0.4, delay:0.3 }) }});
         tl.to("#word-1 h1", { y: "110%", duration: 1, delay: 0.3 });
         tl.to("#word-2 h1", { y: "-110%", duration: 1 }, "<");
-        tl.to(".block", { clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", duration: 1, stagger: 0.1, delay: 0.75 });
+        tl.to(".block", { clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)", duration: 1, stagger: 0.1, delay: 0.0 });
+        tl.add(() => {
+            const loader = document.getElementById("page-loader");
+            loader?.remove();
+        })
         
-        tl.from("header", { opacity: 0, duration: 1.8, delay:1 }, "<")
+        tl.from("header", { opacity: 0, duration: 1.8 }, "<")
 
         tl.to("#hero-section #line", { scaleX: 1, duration: 1, ease: "power2.in" }, "<")
         tl.from("#hero-section h1, .testy", { y: 150, duration: 1.5, ease: "power2.out" }, "<")
-        tl.from("#hero-section .description", { opacity: 0, duration: 1, delay: 0.5 }, "<")
+        tl.from("#hero-section .description", { opacity: 0, duration: 1 }, "<")
         tl.from("#scroller", { opacity: 0, duration: 1.4 }, "<")
+
+        gsap.to("#scroller", {
+            y: 500,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#hero-section",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
     })
 </script>

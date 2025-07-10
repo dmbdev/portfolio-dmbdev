@@ -5,11 +5,11 @@
     <div id="menu-content" class="flex flex-col items-start opacity-0 pointer-events-none transition-opacity duration-300">
         <div class="absolute flex px-[30px] w-[100%] items-center justify-between bottom-0 top-auto left-0 right-0 h-auto pb-[16vh]">
             <div class="flex w-[45%] items-start justify-center flex-col">
-                <div class="overflow-hidden items-center static block text-[3.5em] text-[#888] mb-[1em] font-bold">Contact</div>
-                <div class="overflow-hidden items-center static block text-[2.6em] uppercase mb-[0.5em] tracking-wider">
+                <div class="overflow-hidden items-center static text-[3.5em] text-[#888] mb-[1em] font-bold">Contact</div>
+                <div class="overflow-hidden items-center static text-[2.6em] uppercase mb-[0.5em] tracking-wider">
                     <a href="">dxniel.martin@gmail.com</a>
                 </div>
-                <div class="overflow-hidden items-center static block text-[2.6em] uppercase mb-[0.5em] tracking-wider">Linkedin</div>
+                <div class="overflow-hidden items-center static text-[2.6em] uppercase mb-[0.5em] tracking-wider">Linkedin</div>
             </div>
         </div>
         <div class="overflow-hidden relative flex items-center justify-center mb-1 max-h-10">
@@ -47,6 +47,7 @@
     let isOpen = false;
 
     icon?.addEventListener('click', () => {
+      console.log('Hola')
       if (isOpen) {
         // Paso 1: quitar rotación
         topBar?.classList.remove('rotate-45');

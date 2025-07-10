@@ -1,0 +1,14 @@
+<svg
+  id="water-drop"
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  width="120"
+  height="120"
+  class="drop-shadow-2xl"
+>
+  <path
+    d="M32 2C32 2 12 26 12 40C12 53.255 22.745 64 36 64C49.255 64 60 53.255 60 40C60 26 32 2 32 2Z"
+    fill="#FFFFFF"
+  />
+</svg>
+
