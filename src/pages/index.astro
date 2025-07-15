@@ -8,7 +8,7 @@ import AboutMe from '../components/AboutMe.astro';
 ---
 
 <Layout>
-    <!-- <PageLoader /> -->
+    <PageLoader />
     <Header />
     <HeaderMobile />
     <HeroSection />
@@ -19,9 +19,11 @@ import AboutMe from '../components/AboutMe.astro';
     import { gsap } from "gsap";
     import { CustomEase } from "gsap/CustomEase"
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { SplitText } from "gsap/SplitText";
 
     gsap.registerPlugin(CustomEase);
     gsap.registerPlugin(ScrollTrigger);
+    gsap.registerPlugin(SplitText);
     CustomEase.create("hop", "0.9, 0, 0.1, 1");
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -43,16 +45,5 @@ import AboutMe from '../components/AboutMe.astro';
         tl.from("#hero-section h1, .testy", { y: 150, duration: 1.5, ease: "power2.out" }, "<")
         tl.from("#hero-section .description", { opacity: 0, duration: 1 }, "<")
         tl.from("#scroller", { opacity: 0, duration: 1.4 }, "<")
-
-        gsap.to("#scroller", {
-            y: 500,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: "#hero-section",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-    })
+    });
 </script>
